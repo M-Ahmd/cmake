@@ -8,6 +8,7 @@ project(ModernCMakeMasterclass CXX)
 
 # 1. مكتبة ثابتة (STATIC): يتم دمج كودها بالكامل داخل أي برنامج يستخدمها.
 add_library(LoggerLib STATIC src/logger.cpp)
+set_target_properties(LoggerLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # 2. مكتبة مشتركة (SHARED): تُبنى كملف منفصل (.so في لينكس) يقرأ منه البرنامج وقت التشغيل.
 add_library(MathLib SHARED src/math.cpp)
@@ -35,7 +36,7 @@ target_link_libraries(MathLib PRIVATE LoggerLib)
 target_link_libraries(CacheLib INTERFACE LoggerLib)
 
 # حالة PUBLIC: الاعتمادية المكشوفة
-# UiLib تستخدم MathLib في ملف الهيدر (ui.h).
+# UiLib تستخدم MathLib في ملف الهيدر (ui.hpp).
 # النتيجة: من يستخدم UiLib سيرث تلقائياً مسارات وخصائص MathLib أيضاً.
 target_link_libraries(UiLib PUBLIC MathLib)
 
